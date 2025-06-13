@@ -9,6 +9,8 @@ import SearchResultsPage from "pages/search-results-page";
 import AuthorProfilePage from "pages/author-profile-page";
 import ArticleDetailPage from "pages/article-detail-page";
 import NotFound from "pages/NotFound";
+import LoginPage from "pages/login-page"; // Added import
+import SignupPage from "pages/signup-page"; // Added import
 
 const Routes = () => {
   return (
@@ -23,6 +25,12 @@ const Routes = () => {
           <Route path="/search-results-page" element={<SearchResultsPage />} />
           <Route path="/author-profile-page" element={<AuthorProfilePage />} />
           <Route path="/article-detail-page" element={<ArticleDetailPage />} />
+
+          {/* Added Routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+
+          {/* NotFound Route should be last */}
           <Route path="*" element={<NotFound />} />
         </RouterRoutes>
       </ErrorBoundary>
