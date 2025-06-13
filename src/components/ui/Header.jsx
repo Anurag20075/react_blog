@@ -17,6 +17,12 @@ const Header = () => {
     { label: 'About', path: '/about-contact-page', icon: 'Info' },
   ];
 
+  // New auth navigation items
+  const authNavigationItems = [
+    { label: 'Login', path: '/login', icon: 'LogIn' }, // Added LogIn icon
+    { label: 'Sign Up', path: '/signup', icon: 'UserPlus' } // Added UserPlus icon
+  ];
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -103,7 +109,7 @@ const Header = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8">
+            <nav className="hidden lg:flex items-center space-x-1"> {/* Reduced space-x slightly */}
               {navigationItems.map((item) => (
                 <Link
                   key={item.path}
@@ -116,11 +122,24 @@ const Header = () => {
                   {item.label}
                 </Link>
               ))}
+               {/* Desktop Auth Links - Separated for clarity and potential different styling/positioning */}
+              <div className="ml-4 flex items-center space-x-1">
+                {authNavigationItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`font-heading font-medium nav-transition px-3 py-2 rounded-button ${
+                      isActivePath(item.path)
+                        ? 'text-accent bg-accent/10' :'text-text-primary hover:text-accent hover:bg-accent/5'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
             </nav>
 
-            {/* Desktop Search & Mobile Controls */}
-            <div className="flex items-center space-x-4">
-              {/* Desktop Search */}
+            <div className="flex items-center space-x-2 sm:space-x-4"> {/* Adjusted spacing for mobile too */}
               <div className="hidden lg:block relative">
                 {isSearchOpen ? (
                   <form onSubmit={handleSearchSubmit} className="flex items-center">
@@ -131,7 +150,7 @@ const Header = () => {
                         value={searchQuery}
                         onChange={handleSearchChange}
                         placeholder="Search articles..."
-                        className="w-64 pl-10 pr-4 py-2 border border-border rounded-button focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent nav-transition"
+                        className="w-48 xl:w-64 pl-10 pr-4 py-2 border border-border rounded-button focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent nav-transition" // Adjusted width
                       />
                       <Icon 
                         name="Search" 
@@ -239,7 +258,7 @@ const Header = () => {
           </div>
 
           {/* Mobile Navigation Items */}
-          <nav className="flex-1 px-6 py-4">
+          <nav className="flex-1 px-6 py-4 overflow-y-auto"> {/* Added overflow-y-auto */}
             <ul className="space-y-2">
               {navigationItems.map((item) => (
                 <li key={item.path}>
@@ -251,12 +270,32 @@ const Header = () => {
                         ? 'text-accent bg-accent/10' :'text-text-primary hover:text-accent hover:bg-accent/5'
                     }`}
                   >
-                    <Icon name={item.icon} size={20} />
+                    <Icon name={item.icon} size={20} className={isActivePath(item.path) ? 'text-accent' : 'text-text-secondary'} />
                     <span className="font-heading font-medium">{item.label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
+            {/* Auth Links in Mobile Menu */}
+            <div className="mt-6 pt-6 border-t border-border">
+              <ul className="space-y-2">
+                {authNavigationItems.map((item) => (
+                  <li key={item.path}>
+                    <Link
+                      to={item.path}
+                      onClick={closeMobileMenu}
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-button nav-transition ${
+                        isActivePath(item.path)
+                          ? 'text-accent bg-accent/10' :'text-text-primary hover:text-accent hover:bg-accent/5'
+                      }`}
+                    >
+                      <Icon name={item.icon} size={20} className={isActivePath(item.path) ? 'text-accent' : 'text-text-secondary'} />
+                      <span className="font-heading font-medium">{item.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </nav>
         </div>
       </div>
